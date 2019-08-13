@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.observabledemo.Utils.BindingUtils" />
+
+        <variable
+            name="user"
+            type="com.example.observabledemo.model.User" />
+
+        <variable
+            name="handlers"
+            type="com.example.observabledemo.activity.MainActivity.MyClickHandlers" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                tools:context=".view.MainActivity"
+                tools:showIn="@layout/activity_main">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layout_pro_image_section"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:paddingTop="@dimen/activity_margin"
+                    android:paddingBottom="@dimen/activity_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cons_layout">
+
+                    <ImageView
+                        android:id="@+id/img_profile_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:onLongClick="@{handlers::onProfileImageLongPress}"
+                        bind:profileImage="@{user.profileImage}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@mipmap/ic_launcher" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{handlers::onProfileFabClicked}"
+                        android:src="@drawable/ic_add_white_24dp"
+                        app:fabCustomSize="30dp"
+                        app:layout_constraintBottom_toBottomOf="@id/img_profile_image"
+                        app:layout_constraintEnd_toEndOf="@id/img_profile_image" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img_profile_image">
+
+                        <TextView
+                            android:id="@+id/txt_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.1"
+                            android:text="@{user.name}"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/profile_name"
+                            app:layout_constraintBottom_toBottomOf="@id/img_profile_image"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="Peter Parker" />
+
+                        <TextView
+                            android:id="@+id/txt_about"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="sans-serif"
+                            android:letterSpacing="0.1"
+                            android:text="@{user.about}"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/profile_about"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_user_name"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="Spider Man" />
+                    </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txt_number_of_posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:onClick="@{handlers::onPostsClicked}"
+                    android:text="@{BindingUtils.convertToSuffix(user.numberOfPosts)}"
+                    android:textColor="@color/profile"
+                    android:textSize="24sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_number_of_followers"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_pro_image_section"
+                    tools:text="33.4K" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{handlers::onPostsClicked}"
+                    android:textSize="@dimen/profile_meta_label"
+                    app:layout_constraintStart_toStartOf="@id/txt_number_of_posts"
+                    app:layout_constraintEnd_toEndOf="@id/txt_number_of_posts"
+                    app:layout_constraintTop_toBottomOf="@id/txt_number_of_posts"
+                    android:text="@string/posts" />
+
+                <TextView
+                    android:id="@+id/txt_number_of_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:onClick="@{handlers::onFollowersClicked}"
+                    android:text="@{BindingUtils.convertToSuffix(user.numberOfFollowers)}"
+                    android:textColor="@color/profile"
+                    android:textSize="24sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_number_of_following"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/txt_number_of_posts"
+                    app:layout_constraintTop_toBottomOf="@id/layout_pro_image_section"
+                    tools:text="20K" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{handlers::onFollowersClicked}"
+                    android:textSize="@dimen/profile_meta_label"
+                    app:layout_constraintStart_toStartOf="@id/txt_number_of_followers"
+                    app:layout_constraintEnd_toEndOf="@id/txt_number_of_followers"
+                    app:layout_constraintTop_toBottomOf="@id/txt_number_of_posts"
+                    android:text="@string/followers" />
+
+                <TextView
+                    android:id="@+id/txt_number_of_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:onClick="@{handlers::onFollowingClicked}"
+                    android:text="@{BindingUtils.convertToSuffix(user.numberOfFollowing)}"
+                    android:textColor="@color/profile"
+                    android:textSize="24sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/txt_number_of_followers"
+                    app:layout_constraintTop_toBottomOf="@id/layout_pro_image_section"
+                    tools:text="20K" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{handlers::onFollowingClicked}"
+                    android:textSize="@dimen/profile_meta_label"
+                    android:id="@+id/txt_following_text"
+                    app:layout_constraintEnd_toEndOf="@id/txt_number_of_following"
+                    app:layout_constraintStart_toStartOf="@id/txt_number_of_following"
+                    app:layout_constraintTop_toBottomOf="@id/txt_number_of_posts"
+                    android:text="@string/following" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/view"
+                    android:visibility="invisible"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    app:layout_constraintTop_toBottomOf="@id/txt_following_text"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycler_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
